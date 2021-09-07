@@ -1,6 +1,6 @@
 {
   "name": "volto-middleware-static",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Volto middleware to serve dynamic static resources",
   "main": "src/index.js",
   "repository": "https://github.com/collective/volto-middleware-static.git",
