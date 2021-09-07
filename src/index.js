@@ -12,17 +12,21 @@ const getResource = (url) =>
     }
   });
 
-export default function applyConfig(config) {
-  const { staticFiles } = config.settings;
+/**
+ * Create a middleware to serve static files
+ * @param {{[string]: {url: string, contentType: string}}} staticFiles - contains the static files to be served
+ * @returns {express.IRouter} staticResourcesMiddleware
+ */
+export function serveStaticResources(staticFiles = {}) {
   // EXAMPLE:
-  // config.settings.staticFiles = {
+  // {
   //   'favicon.ico': {
   //     url: favicon, // webpack loaded resource
   //     contentType: 'image/ico',
   //   },
   // };
 
-  if (__SERVER__ && staticFiles) {
+  if (__SERVER__) {
     const express = require('express');
 
     const staticResourcesMiddleware = express.Router();
@@ -44,11 +48,12 @@ export default function applyConfig(config) {
       next();
     });
 
-    config.settings.expressMiddleware = [
-      ...config.settings.expressMiddleware,
-      staticResourcesMiddleware,
-    ];
+    return staticResourcesMiddleware;
   }
 
+  return {};
+}
+
+export default function applyConfig(config) {
   return config;
 }

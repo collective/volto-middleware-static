@@ -22,12 +22,19 @@ In your project's configuration, you can add something like:
 // WARN: if this is a png or jpg, it will be served as base64 string if small
 import favicon from '@package/components/layout/favicon.ico';
 
-config.settings.staticFiles = {
-  'favicon.ico': {
-    url: favicon,
-    contentType: 'image/ico',
-  },
-};
+import { serveStaticResources } from 'volto-middleware-static';
+
+if (__SERVER__) {
+  config.settings.expressMiddleware = [
+    ...config.settings.expressMiddleware,
+    serveStaticResources({
+      'favicon.ico': {
+        url: favicon,
+        contentType: 'image/ico',
+      },
+    }),
+  ];
+}
 ```
 
 And then you'll have Volto serving your favicon and you can customize it from your code.
